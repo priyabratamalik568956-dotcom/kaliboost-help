@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mixy — Maa Kali Help Center (Admin Only Replies)</title>
+<style>
+/* Animations */
+@keyframes glow {
+  0% { text-shadow: 0 0 10px #ff0040, 0 0 20px #ff6600; }
+  50% { text-shadow: 0 0 25px #ff3300, 0 0 50px #ffaa00; }
+  100% { text-shadow: 0 0 10px #ff0040, 0 0 20px #ff6600; }
+}
+@keyframes scrollLeft {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+/* Base */
+body{ margin:0; padding:0; font-family:'Poppins',sans-serif; background: radial-gradient(circle at top,#150014 10%,#000 90%); color:#fff; overflow-x:hidden; }
+header{ position:relative; text-align:center; padding:60px 10px 36px; background: linear-gradient(90deg,#2d002d,#0b0012); box-shadow:0 0 25px #ff0040; overflow:hidden;}
+header::before{ content:""; position:absolute; inset:0; background:url('https://i.imgur.com/oYcXKjP.jpeg') center/cover no-repeat; opacity:0.14; filter: blur(2px) brightness(1.1); z-index:0; }
+h1{ position:relative; z-index:2; margin:0; font-size:2.3rem; color:#ff2444; animation:glow 2.5s infinite alternate; }
+.sub{ position:relative; z-index:2; color:#ffd580; margin-top:6px; }
+
+/* Holy scroll container */
+.scroll-wrap{ position:absolute; left:0; right:0; bottom:8px; height:28px; overflow:hidden; z-index:1; }
+.scroll-track{ display:inline-block; white-space:nowrap; will-change:transform; animation:scrollLeft 18s linear infinite; font-weight:700; color:#ffcc66; font-size:14px; opacity:0.95; text-shadow:0 0 8px rgba(255,153,0,0.6);}
+.scroll-item{ display:inline-block; padding:0 40px; }
+
+/* Layout */
+.container{ max-width:980px; margin:20px auto; padding:12px; }
+nav{ text-align:center; margin-bottom:10px; }
+nav a{ display:inline-block; padding:8px 12px; margin:0 6px; color:#ffd580; text-decoration:none; font-weight:700; border-radius:6px; }
+nav a.active{ color:#fff; background: linear-gradient(90deg,#ff0040, #ff9900); box-shadow:0 6px 20px rgba(255,0,60,0.18); }
+
+.card{ background: rgba(20,0,20,0.85); padding:14px; border-radius:12px; margin-bottom:12px; box-shadow:0 0 18px rgba(255,0,60,0.12); }
+input, textarea, select, button{ width:100%; padding:10px; margin:8px 0; border-radius:8px; border:1px solid rgba(255,255,255,0.06); background:#190018; color:#fff; box-sizing:border-box;}
+button{ background: linear-gradient(90deg,#ff0040,#ff9900); font-weight:700; cursor:pointer; border:none; box-shadow:0 8px 20px rgba(255,0,60,0.12);}
+.small{ font-size:13px; color:#ffd580; }
+
+/* Ticket list */
+.ticket{ border-left:4px solid rgba(246,200,76,0.12); padding:10px; margin-bottom:10px; border-radius:8px; background: linear-gradient(180deg, rgba(255,255,255,0.01), transparent);}
+.ticket .meta{ font-size:13px; color:#ffd580; display:flex; gap:8px; align-items:center; }
+.reply{ margin-top:8px; padding:10px; background:#100012; border-radius:8px; border:1px solid rgba(255,255,255,0.02); }
+.reply-badge{ font-weight:700; color:#ffdd88; margin-right:8px; }
+
+footer{ text-align:center; color:#bbb; padding:18px 10px; margin-top:12px; }
+@media(max-width:640px){ h1{font-size:1.6rem} }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>जय माँ काली — Mixy Help Center</h1>
+  <div class="sub">Order • Deposit • Speed-Up • Refill — Admin Only Replies</div>
+  <div class="scroll-wrap">
+    <div class="scroll-track">
+      <span class="scroll-item">जय माँ काली 🔱 जय माँ काली 🔱 जय माँ काली 🔱</span>
+      <span class="scroll-item">जय माँ काली 🔱 जय माँ काली 🔱 जय माँ काली 🔱</span>
+      <span class="scroll-item">जय माँ काली 🔱 जय माँ काली 🔱 जय माँ काली 🔱</span>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+<nav>
+  <a href="#" class="active" data-target="user">User</a>
+  <a href="#" data-target="admin">Admin</a>
+  <a href="#" data-target="tickets">Tickets</a>
+</nav>
+
+<div id="user" class="card section">
+  <h3>🕉️ Place a Ticket</h3>
+  <label class="small">Support Type</label>
+  <select id="ticketType">
+    <option>Order</option>
+    <option>Deposit</option>
+    <option>Speed-up</option>
+    <option>Refill</option>
+  </select>
+  <label class="small">Order / TX ID (optional)</label>
+  <input id="ticketRef" placeholder="ORD-12345 or TX-9876">
+  <label class="small">Message</label>
+  <textarea id="ticketMsg" placeholder="Explain your issue..."></textarea>
+  <button id="addTicket">Submit Ticket</button>
+  <div class="small">After submission you'll get a ticket ID. Admin replies will appear here.</div>
+</div>
+
+<div id="admin" class="card section" style="display:none">
+  <h3>🔱 Admin Login</h3>
+  <input type="password" id="adminPassword" placeholder="Enter admin password">
+  <button id="loginBtn">Unlock Admin</button>
+  <div id="loginStatus" class="small" style="margin-top:6px"></div>
+</div>
+
+<div id="tickets" class="card section" style="display:none">
+  <h3>📨 Support Tickets</h3>
+  <div id="ticketList"></div>
+</div>
+</div>
+
+<footer>© 2025 Mixy Panel — Maa Kali Divine Edition ⚡</footer>
+
+<script>
+const ADMIN_PASSWORD = 'mybossbabulu';
+
+/* Navigation */
+document.querySelectorAll('nav a').forEach(a=>{
+  a.addEventListener('click', e=>{
+    e.preventDefault();
+    document.querySelectorAll('nav a').forEach(x=>x.classList.remove('active'));
+    a.classList.add('active');
+    document.querySelectorAll('.section').forEach(s=>s.style.display='none');
+    document.getElementById(a.dataset.target).style.display='block';
+  });
+});
+
+/* Storage helpers */
+function loadTickets(){ try{ return JSON.parse(localStorage.getItem('mixy_tickets')||'[]'); }catch(e){return[];} }
+function saveTickets(t){ localStorage.setItem('mixy_tickets',JSON.stringify(t)); }
+
+/* Ticket creation */
+document.getElementById('addTicket').addEventListener('click',()=>{
+  const type=document.getElementById('ticketType').value;
+  const ref=document.getElementById('ticketRef').value.trim();
+  const msg=document.getElementById('ticketMsg').value.trim();
+  if(!msg){ alert('Write a message'); return;}
+  const tickets=loadTickets();
+  tickets.push({id:'T'+Date.now().toString().slice(-6), type, ref, msg, status:'open', when:new Date().toLocaleString(), replies:[]});
+  saveTickets(tickets); renderTickets();
+  alert('Ticket submitted');
+  document.getElementById('ticketRef').value=''; document.getElementById('ticketMsg').value='';
+});
+
+/* Render tickets (user sees only admin replies) */
+function renderTickets(){
+  const list=document.getElementById('ticketList'); list.innerHTML='';
+  const tickets=loadTickets().slice().reverse();
+  if(!tickets.length){ list.innerHTML='<div class="small">No tickets yet.</div>'; return;}
+  const isAdmin=sessionStorage.getItem('mixy_admin')==='1';
+  tickets.forEach(t=>{
+    const wrapper=document.createElement('div'); wrapper.className='ticket';
+    const meta=document.createElement('div'); meta.className='meta';
+    meta.innerHTML=`<div style="font-weight:700">${t.type}</div><div style="margin-left:auto" class="small">ID:${t.id}</div>`; wrapper.appendChild(meta);
+    if(t.ref){ const r=document.createElement('div'); r.className='small'; r.textContent='Ref: '+t.ref; wrapper.appendChild(r);}
+    const msg=document.createElement('div'); msg.style.marginTop='8px'; msg.textContent=t.msg; wrapper.appendChild(msg);
+    const when=document.createElement('div'); when.className='small'; when.style.marginTop='6px'; when.textContent='Created: '+t.when+' | Status: '+(t.status||'open'); wrapper.appendChild(when);
+
+    /* show admin replies only */
+    if(Array.isArray(t.replies)&&t.replies.length){
+      t.replies.forEach(r=>{
+        if(r.by==='admin'){
+          const rv=document.createElement('div'); rv.className='reply';
+          rv.innerHTML=`<div class="reply-badge">Admin</div><div>${r.text}</div><div class="small" style="margin-top:6px;color:#ccc">${r.when}</div>`;
+          wrapper.appendChild(rv);
+        }
+      });
+    }
+
+    /* Admin reply UI */
+    if(isAdmin){
+      const replyBox=document.createElement('div'); replyBox.style.marginTop='8px';
+      const textarea=document.createElement('textarea'); textarea.placeholder='Write reply to user...';
+      const btn=document.createElement('button'); btn.textContent='Send Reply'; btn.style.marginTop='6px';
+      btn.addEventListener('click', ()=>{
+        const text=textarea.value.trim(); if(!text){ alert('Write reply'); return;}
+        const all=loadTickets(); const idx=all.findIndex(x=>x.id===t.id); if(idx===-1) return;
+        all[idx].replies.push({by:'admin', text, when:new Date().toLocaleString()});
+        all[idx].status='replied'; saveTickets(all); renderTickets(); alert('Reply sent'); 
+      });
+      replyBox.appendChild(textarea); replyBox.appendChild(btn);
+      wrapper.appendChild(replyBox);
+    }
+
+    list.appendChild(wrapper);
+  });
+}
+
+/* Admin login */
+document.getElementById('loginBtn').addEventListener('click', ()=>{
+  const pass=document.getElementById('adminPassword').value.trim();
+  const status=document.getElementById('loginStatus');
+  if(pass===ADMIN_PASSWORD){ sessionStorage.setItem('mixy_admin','1'); status.textContent='Admin unlocked — जय माँ काली'; renderTickets();
+    document.querySelectorAll('nav a').forEach(a=>a.classList.remove('active'));
+    document.querySelector('nav a[data-target="tickets"]').classList.add('active');
+    document.querySelectorAll('.section').forEach(s=>s.style.display='none');
+    document.getElementById('tickets').style.display='block';
+  }else{ status.textContent='Incorrect password'; }
+});
+
+/* Init */
+if(sessionStorage.getItem('mixy_admin')==='1'){ renderTickets(); }
+</script>
+</body>
+</html>
